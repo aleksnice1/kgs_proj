@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+
+@section StyleSheets{
+	<style>
+		body {
+			width: 800px;
+			margin: auto;
+		}
+
+		.fileVal {
+			width: 700px;
+			min-height: 50px;
+			max-height: 600px;
+			padding: 15px;
+			border: dotted 1px #bcbcbc;
+			margin: 15px 0 0 0;
+			float: left;
+			overflow: auto;
+		}
+	</style>
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/DigitalSignatureSignClientFileJs")
+
+	<script type="text/javascript">
+	    var fileInputId = '#fileupload';
+	    var fileSendBtnId = '#btnUploadAll';
+	    var getBase64Url = '/DigitalSignature/GetBase64';
+
+	    $(function () {
+	        var certificateHash = $("#enabledCertificates").val()
+	        SignClientInitFileUpload(MakeSignThrowServer, certificateHash);
+	    });
+
+	    function SignClientInitFileUpload(callbackFunc, certificateHash) {
+	        $(fileInputId).fileupload({
+	            url: getBase64Url,
+	            dataType: 'text',
+	            autoUpload: false,
+	            maxNumberOfFiles: 1,
+	            disableImageResize: false,
+	            previewCrop: true,
+	            sequentialUploads: false
+	        }).on('fileuploadadd', function (e, data) {
+	            $(fileSendBtnId).click(function () {
+	                data.submit();
+	            });
+	        }).on('fileuploaddone', function (e, data) {
+	            if (callbackFunc != null)
+	                callbackFunc(data.result, certificateHash);
+	        }).on('fileuploadfail', function (e, data) {
+	            alert('Не удалось получить base64 представление с сервера!');
+	        });
+	    }
+
+	    function MakeFileSign() {
+	        var cert = $("#enabledCertificates").val();
+			if (typeof FileReader !== "undefined") {				
+				var oFile = document.getElementById("file").files[0];
+				MakeSignFromFileReader(SignCreated, cert, oFile);
+			}
+			else {
+		        MakeSignThrowServer(SignCreated, cert, file);
+			}
+		}
+
+		function SignCreated(sign) {
+			$("#sign").html(sign);
+		}
+
+
+		// Создание цифровровой подписи при помощи FileReader
+		function MakeSignFromFileReader(callbackFunc, certificateHash, file) {
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(file);
+
+			oFReader.onload = function (oFREvent) {
+				var flag = "base64,",
+					result = oFREvent.target.result,
+					base = result.substring(result.indexOf(flag) + flag.length, result.length);
+
+				var helper = new DigitalSignatureHelper(),
+					signedMessage = helper.MakeSignFileHtmlBase64(certificateHash, base);
+
+				callbackFunc(signedMessage);
+			};
+		}
+
+		// Создание цифровровой подписи через сервер
+		function MakeSignThrowServer(base64String, certificateHash) {//callbackFunc, certificateHash, file
+		    var flag = "base64,",
+					base64String = base64String.substring(base64String.indexOf(flag) + flag.length, base64String.length);
+		    var helper = new DigitalSignatureHelper(),
+					signedMessage = helper.MakeSignFileHtmlBase64(certificateHash, base64String);
+		    alert(base64String);
+		    //callbackFunc(signedMessage);
+		}
+	</script>	
+}
+
+<h1>SignClientFile Test</h1>
+<div class="content_row" id="sertRow">
+	<h2>Сертификат</h2>
+</div>
+<div class="content_row">
+	<h2>Файл</h2>
+	<input type="file" id="file"/>
+</div>
+<div class="content_row">
+	<input type="button" value="start" id="buttonRun" onclick="MakeFileSign();"/>
+</div>
+<div class="content_row">
+	<h2>Электронная подпись</h2>
+	<div id="sign" class="fileVal"></div>
+</div>
+<object id="cadesplugin" type="application/x-cades" class="hiddenObject"></object>
+
+<input id="fileupload" type="file" name="files[]" multiple>
+<button id="btnUploadAll" type="button">
+                    Upload All</button>

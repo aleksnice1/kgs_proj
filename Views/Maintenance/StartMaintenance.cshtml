@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Техобслуживание";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/MaintenanceStartMaintenanceCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/MaintenanceStartMaintenanceJs")
+}
+
+<div class="row">
+	<div class="col-md-5">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Действие</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						Режим технического обслуживания
+					</td>
+					<td class="remove-padding-right">
+						@using (Html.BeginForm(new { action = "ChangeMode" }))
+						{ 
+							@Html.Hidden("active", true);
+								<input type="submit" value="Включить" class="btn btn-primary pull-right" />
+							@Html.AntiForgeryToken() 
+						}
+					</td>
+				</tr>
+			    <tr>
+			        <td>
+			            Обновление сервера отчетов
+			        </td>
+			        <td class="remove-padding-right">
+			            @using (Html.BeginForm(new { action = "UpdateReportService" }))
+			            { 
+			                <input type="submit" value="Обновить" class="btn btn-primary pull-right" />
+			                @Html.AntiForgeryToken() 
+			            }
+			        </td>
+			    </tr>
+                <tr>
+                    <td>
+						Пересчет договоров
+					</td>
+                    <td class="remove-padding-right">
+                        @using (Html.BeginForm(new { action = "UpdateUkk" })) 
+                        {
+                            @*
+                            @Html.TextBox("idDocument")
+                            *@
+                            <label>Введите Id договора</label>
+                            <input type="text" name="idDocument" class="right_text" />
+                        	<input type="submit" value="Пересчитать" class="btn btn-primary pull-right" />
+						}
+                    </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

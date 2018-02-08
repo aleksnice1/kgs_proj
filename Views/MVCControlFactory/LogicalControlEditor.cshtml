@@ -1,0 +1,17 @@
+﻿@model Kadastr.WebApp.Models.AttributeValueDTO
+
+@{
+	string guid = Guid.NewGuid().ToString();
+	
+	<div class="col-md-12 id-guid-control" id="@guid">
+		<div class="btn-group">
+			<button type="button" data-source="@guid" class="btn btn-default radio-AVcontrol" data-value="true">Да</button>
+			<button type="button" data-source="@guid" class="btn btn-default radio-AVcontrol" data-value="false">Нет</button>
+		</div>
+
+		<input type="hidden" class="col-md-12" value="@Model.Value" name="@(ViewBag.ControlName + ".Value")"/>	 
+		<input type="hidden" class="col-md-12" value="@Model.Id" name="@(ViewBag.ControlName + ".Id")"/>
+		<input type="hidden" class="col-md-12" value="@Model.IdAttribute" name="@(ViewBag.ControlName + ".IdAttribute")"/>
+		<input type="hidden" class="col-md-12" value="@Model.Type" name="@(ViewBag.ControlName + ".Type")"/>
+	</div>
+}	

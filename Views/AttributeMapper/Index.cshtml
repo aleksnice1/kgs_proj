@@ -1,0 +1,43 @@
+﻿@{
+	Layout = null;
+}
+@model  List<SelectListItem>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Cache-Control" content="max-age=86400, must-revalidate" />
+    <meta charset="utf-8" />
+    <title>Смена типа сущности</title>
+
+	@System.Web.Optimization.Styles.Render("~/bundles/AttributeMapperIndexCss")
+    @System.Web.Optimization.Scripts.Render("~/bundles/AttributeMapperIndexJs")
+
+</head>
+<body>
+	<div class="AttributeMapWrapper">
+		<div class="head">
+			<div class="info">
+				<h2> Смена типа сущности</h2>
+				<span>из </span>@ViewBag.Caption</br>
+				<span>в  </span>@Html.DropDownList("DistinctEntityGuid", Model, new { @onchange = "DistinctEntityGuidChanged()" })
+			</div>
+			<div class="buttons">
+				<input type="button" value="Применить" class="big_button" onclick="SetMapping()" />
+				<input type="button" value="Отмена" class="big_button" onclick="EndWork()" />				
+			</div>
+		</div>
+		<div class="body">
+			<div id="mapping"></div>
+		</div>
+		<div id="tabs_blocker"><img src="../Images/loader.gif"/></div>
+	</div>
+	
+	<input id="idClass"			type="hidden" value="@ViewBag.IdClass" />
+	<input id="sourceConvert"	type="hidden" value="@ViewBag.SourceConvert" />
+	<input id="guidFrom"		type="hidden" value="@ViewBag.SourceIdentity" />
+	<input id="IdEntities"		type="hidden" value="@ViewBag.IdEntities" />
+	<input id="operationTypeId"	type="hidden" value="@ViewBag.OperationTypeId" />
+</body>
+</html>

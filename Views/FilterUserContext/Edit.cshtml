@@ -1,0 +1,109 @@
+﻿@using Kadastr.WebApp.Code.Extensions
+@model UserContextViewModel
+@{
+    ViewBag.Title = "Редактирование пользователя контекста";
+    Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+}
+
+@section StyleSheets{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/jquery.ui.theme.css")" />
+	<link rel="stylesheet" type="text/css" href="@Url.Content("~/css/jqGrid/ui.jqgrid.css")" />
+	<link rel="stylesheet" type="text/css" href="@Url.Content("~/css/PageCSS/GridView.css")" />
+	<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Plugins/fluentLogger/fluentLogger.css")" />
+}
+
+@section JavaScripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/fluentLogger/fluentLogger.js")"></script>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        var enabled = true;
+
+	        if ($(".loggerEnabled").length > 0) {
+	            enabled = $(".loggerEnabled").val() == "True";
+	        };
+
+	        var loggerOptions = {
+	            makeLogs: false,
+	            makeWarnings: enabled,
+	            makeErrors: enabled
+	        };
+	        c = new fluentLogger(loggerOptions);
+	    });
+	</script>
+	@System.Web.Optimization.Scripts.Render("~/bundles/FilterUserContextEditJs")
+}
+
+@using (Html.BeginForm())
+{
+    <div class="content_row">
+        <input type="submit" id="Save" name="Save" value="Сохранить" class="blue_button_filter" />
+        @Html.ActionLink("Отмена", "List", new { parentId = Model.ContextId }, new { @class = "blue_button_filter" })
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.UserModel)
+            @Html.EditorFor(model => model.ContextId)
+            @Html.EditorFor(model => model.Id)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.UserModel)
+            <br />
+            @Html.ValidationMessageFor(model => model.UserId)
+        </div>
+    </div>
+     <div class="content_row">
+         <div class="item_description">
+            @Html.LabelFor(model => model.EnumEntityType)
+        </div>
+        <div class="item_value">
+            @Html.EnumPartial(Model.GetEnumEntityTypeModel())
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+           @Html.LabelFor(model => model.Subtypes)
+        </div>
+        <div class="item_value">
+            @Html.EnumPartial(Model.GetSubtypes())
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.All)
+        </div>
+        <div class="item_value is-all-wrapper">
+            @Html.EditorFor(model => model.All)
+        </div>
+    </div>
+     <div class="content_row selected-grid-wrapper">
+         <p>
+             Выбранные сущности:
+         </p>
+        <div>
+            <div id="NewGridPlace">
+		    </div>
+		    <input type="hidden" id="NewEntityType" value="@ViewBag.EntityType"/>
+        </div>
+    </div>
+    <div class="content_row entity-grid-wrapper" style="display: none;">
+        <p>
+             Выберите сущности:
+         </p>
+	    <div id="GridPlace">
+	    </div>
+	    <input type="hidden" id="EntityType" value="@ViewBag.EntityType"/>
+        <div id="selected-entities">
+            @foreach (var entity in Model.GetEntities())
+                {
+                    <input type="hidden"
+                        name="EntityGuids"
+                        value="@entity.GUID"
+                        data-subtype="@entity.Type.sName"
+                        data-id="@entity.Id"
+                        data-name="@entity.sName" />
+                }
+        </div>
+    </div>
+}

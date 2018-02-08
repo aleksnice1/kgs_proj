@@ -1,0 +1,139 @@
+﻿<html>
+    <head>
+        <title>Калькулятор дат</title>
+        @System.Web.Optimization.Scripts.Render("~/bundles/StartDateFormulaCreatorIndexJs")
+        @System.Web.Optimization.Styles.Render("~/bundles/StartDateFormulaCreatorIndexCss")
+    </head>
+
+<body>
+    использовать готовые формулы:
+    <p class="dashedBlocks">
+       формулы:
+         <select style="width: 250px" id="ddlFormulas">
+             @foreach (var formula in (ViewBag.Formulas as IEnumerable<Kadastr.DomainModel.StartDateFormula>))
+             {
+                 <option value="@formula.Id~~!~~@formula.Text">@formula.Name</option>
+             }
+         </select>
+    </p>
+    <p>
+        создать:
+    </p>
+    <div id="wraper-panel">
+        <div id="digital-buttons" class="main-panels dashedBlocks">
+             формула: @Html.TextBox("dateFormula") 
+             <br />
+             имя: <input type="text" id="formula-name" />
+              <a href="#" id="btnSaveFormula" title="сохранить">
+                 <img src="Images/save-icon.png" alt="сохранить"/>
+             </a>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <table class="buttonsTable">
+                            <tr>
+                                <td>
+                                    ТК
+                                </td>
+                                <td>
+                                    ТГ
+                                </td>
+                                <td>
+                                    ТМ
+                                </td>
+                                <td>
+                                    ТД
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="buttonsTable" id="dial">
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    3
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    4
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                    6
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    7
+                                </td>
+                                <td>
+                                    8
+                                </td>
+                                <td>
+                                    9
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    +
+                                </td>
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                            </tr>
+                        </table>
+                        <table  class="buttonsTable" id="periods">
+                            <tr>
+                                <td>
+                                    К
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Г
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    М
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Д
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" id="btnResult" class="big_button" value="готово" />
+                    </td>
+                    <td>
+                        <input type="button" id="btnCancel" class="big_button" value="отмена" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="result-panel" class="main-panels dashedBlocks">
+            <span>дата начисления аренды:</span>
+            <input type="text" id="currentDate">
+            <br>
+            <input type="submit" class="big_button" id="show-result-date" value="проверить"/>
+            <br>
+            результат: <span id="result-date-show-container">-</span>
+        </div>
+    </div>
+    </body>
+    </html>

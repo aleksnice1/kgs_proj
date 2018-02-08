@@ -1,0 +1,17 @@
+﻿@using Kadastr.WebApp.Code.Extensions
+@model PanelActions
+<div>
+    @Html.ActionLink(Model.AddLabel, "Edit", Model.AddRouteValues, new { id = "addLink", @class = "blue_button" })
+    @Html.ActionLink(Model.EditLabel, "Edit", null, HtmlHelperExtention.ConditionalDisable(Model.Disabled, new { id = "editLink", @class = "blue_button" }))
+    @using (Html.BeginForm("Delete", ViewContext.RouteData.Values["controller"].ToString(), null, FormMethod.Post, new { id = "deleteForm", style = "display:inline-block;" }))
+    {
+        if (Model.Disabled)
+        {
+        <input type="submit" value="@Model.DeleteLabel" class="blue_button" disabled="disabled" />
+        }
+        else
+        {
+        <input type="submit" value="@Model.DeleteLabel" class="blue_button" />
+        }
+    }
+</div>

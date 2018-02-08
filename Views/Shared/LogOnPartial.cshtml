@@ -1,0 +1,8 @@
+﻿@SiteMasterInfo.UserName
+<br />
+@if (Request.IsAuthenticated)
+{
+    @Html.ActionLink("Сменить пароль", "ChangePassword", "Account", null, new { @class = "HeaderMaster_PasswordEditor", style = SiteMasterInfo.DisplayIfNotMaintenanceMode })
+                    
+    @Html.ActionLink("Выход из системы", "LogOff", "Account", null, new { @class = "HeaderMaster_LoginStatus" })
+}

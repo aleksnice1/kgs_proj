@@ -1,0 +1,41 @@
+﻿@model Kadastr.DomainModel.BookmarkReport
+@{
+	Layout = null;	
+}
+
+<h1>Представление отчета </h1>
+@{Html.BeginForm("SaveReportBookmarkAct", "BookmarkEditor", FormMethod.Post);}
+<div class="content_row">
+	<div class="item_description requiredfield">
+		Название
+	</div>
+	<div class="item_value">
+		@Html.TextBoxFor(model => model.Name, new { @value = @Model.Name })
+		@Html.ValidationMessageFor(model => model.Name)
+	</div>
+</div>
+<div class="content_row" style="display: none;">
+	<div class="item_description requiredfield">
+		Отчет
+	</div>
+	<div class="item_value">
+		@Html.DropDownListFor(model => model.IdReport, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите отчет ---", Value = "" } }, new { @disabled = "disabled" })
+		@Html.ValidationMessageFor(model => model.IdReport)
+	</div>
+	<div class="content_row control_panel">
+		<input type="button" value="Отменить" class="big_button" onclick="CancelClick()" />
+		<input type="submit" value="Сохранить" class="big_button" />
+	</div>
+	<input id="IsNewBookmark" type="hidden" value="@Model.IsNew.ToString()">
+	@{Html.EndForm();}
+	<script>
+		// Запрос доступных отчетов
+		$.getJSON(urlReports, {}, getReports);
+		makeRequiredField();
+
+		// Пришли отчеты
+		function getReports(x) {
+			FillControl("#IdReport", x);
+			$.validator.unobtrusive.parse("form");
+		}
+	</script>

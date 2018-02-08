@@ -1,0 +1,14 @@
+﻿@model Kadastr.WebApp.Models.AttributeValueDTO
+
+@{
+	string guid = Guid.NewGuid().ToString();
+	<div class="col-md-12 id-guid-control" id="@guid">
+		<span data-source="@guid" class="textbox-AVcontrol form-display-control"></span>
+
+		<input type="hidden" class="col-md-12" value="True" name="@(ViewBag.ControlName + ".IsReadOnly")" />
+		<input type="hidden" class="col-md-12" value="@Model.Value" name="@(ViewBag.ControlName + ".Value")"/>	 
+		<input type="hidden" class="col-md-12" value="@Model.Id" name="@(ViewBag.ControlName + ".Id")"/>
+		<input type="hidden" class="col-md-12" value="@Model.IdAttribute" name="@(ViewBag.ControlName + ".IdAttribute")"/>
+		<input type="hidden" class="col-md-12" value="@Model.Type" name="@(ViewBag.ControlName + ".Type")"/>
+	</div>
+}	

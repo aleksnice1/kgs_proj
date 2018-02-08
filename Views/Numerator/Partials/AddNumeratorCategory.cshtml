@@ -1,0 +1,15 @@
+﻿@using Kadastr.Domain
+@using Kadastr.WebApp.Code
+@using Kadastr.WebApp.Code.Helpers.UIHelpers
+<div id="Add">
+    <table class="@GridStyleConstants.GridStyle">
+        <tr class= "@GridStyleConstants.RowStyle">
+            <td class="AddTd" style="width: auto;">
+                @Html.DropDownList("selectCategory", (ViewBag.Categories as IEnumerable<clsAttributeCategory>).ToCategorySelectList())
+            </td>
+            <td class="action">
+                @Html.ActionLink("Добавить", "AddCategory", "Numerator")
+            </td>
+        </tr>
+    </table>
+</div>

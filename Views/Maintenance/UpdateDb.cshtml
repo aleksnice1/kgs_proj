@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Обновление БД";
+}
+<div>
+    Версия базы данных не совпадает с необходимой. Обновить базу данных?
+    @using (Html.BeginForm(new { action = "UpdateDb" }))
+    { 
+        <input type="submit" value="Обновить" />
+        @Html.AntiForgeryToken() 
+    }
+</div>

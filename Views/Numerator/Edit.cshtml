@@ -1,0 +1,159 @@
+﻿@using Kadastr.Domain
+@using Kadastr.WebApp.Code.Extensions
+@using Kadastr.WebApp.Code.Helpers.UIHelpers
+@model Numerator
+@{
+	Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+	ViewBag.Title = "Редактирование нумератора";
+}
+@using (Html.BeginForm("Edit", "Numerator", FormMethod.Post, new { id = "editForm" }))
+{
+    <div class="content_row">
+        <input type="submit" value="Сохранить" class="blue_button_filter" />
+        @Html.ActionLink("Отмена", "List", null, new { @class = "blue_button_filter" })
+    </div>
+    <div class="content_row">
+        @Html.ValidationSummary(true)
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.Name)
+            <br />
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.Format)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.Format)
+            <br />
+            @Html.ValidationMessageFor(model => model.Format)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.RegularExpression)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.RegularExpression)
+            <br />
+            @Html.ValidationMessageFor(model => model.RegularExpression)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.EnumEntityType)
+        </div>
+        <div class="item_value">
+            @Html.EnumPartial(Model.GetEnumEntityTypeModel())
+            <br />
+            @Html.ValidationMessageFor(model => model.EnumEntityType)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.AttributeType)
+        </div>
+        <div class="item_value">
+            @Html.EnumPartial(Model.GetAttributeTypeModel())
+            <br />
+            @Html.ValidationMessageFor(model => model.AttributeType)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.NumeratedCategoryGuid)
+        </div>
+        <div class="item_value">
+            @{
+                var items = (ViewBag.Categories as IEnumerable<clsAttributeCategory>).ToCategorySelectList(Model.AttributeType, Model.NumeratedCategoryGuid, true);
+            }
+            @Html.DropDownListFor(model => model.NumeratedCategoryGuid, items)
+            <br />
+            @Html.ValidationMessageFor(model => model.NumeratedCategoryGuid)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.DoNotGenerate)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.DoNotGenerate)
+            <br />
+            @Html.ValidationMessageFor(model => model.DoNotGenerate)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.CheckInDeleted)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.CheckInDeleted)
+            <br />
+            @Html.ValidationMessageFor(model => model.CheckInDeleted)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.CheckInArchive)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.CheckInArchive)
+            <br />
+            @Html.ValidationMessageFor(model => model.CheckInArchive)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.ErrorMessage)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.ErrorMessage)
+            <br />
+            @Html.ValidationMessageFor(model => model.ErrorMessage)
+        </div>
+    </div>
+}
+@Html.EditorFor(m => m.CategoriesForUniqueness)
+<script src="~/Scripts/Controls/WebGrid.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#AttributeType').change(refreshNumeratedCategories);
+
+        $('#EnumEntityType').change(function () {
+            $.post('@Url.Action("ChangeCategoriesList", "Numerator")', { enumEntityType: $(this).val() }, function (result) {
+                $('#categories').html(result);
+            });
+
+            $('#AttributeType').change();
+        });
+    });
+
+    function refreshNumeratedCategories() {
+        var urlRefresh = '@Url.Action("RefreshNumeratedCategories", "Numerator")';
+        refreshDropDown(urlRefresh, { dataType: $(this).val(), date: new Date() }, 'NumeratedCategoryGuid');
+    }
+
+    function refreshDropDown(url, urlPostData, ddlSelector) {
+        $.getJSON(url, urlPostData, function (result) {
+            createOptions(result, ddlSelector);
+        });
+    }
+
+    function createOptions(jsonResult, ddlSelector) {
+        var ddl = $('#' + ddlSelector);
+        if (ddl.length == 0) return;
+        ddl.empty();
+        if (jsonResult) {
+            $.each(jsonResult, function () {
+                var option = new Option(this.Text, this.Value);
+                ddl.append(option);
+            });
+        }
+    }
+</script>

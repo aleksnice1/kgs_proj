@@ -1,0 +1,36 @@
+﻿@using Kadastr.WebApp.Code.Extensions
+@model FilterContextViewModel
+@{
+    ViewBag.Title = "Редактирование контекста";
+    Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="content_row">
+        <input type="submit" id="Save" name="Save" value="Сохранить" class="blue_button_filter" />
+        @Html.ActionLink("Отмена", "List", null, new { @class = "blue_button_filter" })
+    </div>
+    <div class="content_row">
+        @Html.ValidationSummary(true)
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Id)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.Name)
+            <br />
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.EnumEntityType)
+        </div>
+        <div class="item_value">
+            @Html.EnumPartial(Model.GetEnumEntityTypeModel())
+        </div>
+    </div>
+}

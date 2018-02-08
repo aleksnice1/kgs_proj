@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+
+@section StyleSheets{
+	<style>
+		body {
+			width: 800px;
+			margin: auto;
+		}
+		#signature, #fileText {
+			width: 700px;
+			min-height: 300px;
+			padding: 15px;
+			border: dotted 1px #bcbcbc;
+			margin: 15px 0 0 0;
+			float: left;
+			overflow: auto;
+		}
+		#CertName, #sertificatedData {
+			width: 600px;
+			float: left;
+		}
+		#buttonRun {
+			width: 100px;
+			height: 40px;
+			float: left;
+			cursor: pointer;
+		}
+	</style>
+}
+
+@section JavaScripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/markupHelper.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/DigitalSignature.js")"></script>	
+}
+<div class="content_row" id="sertRow">
+	<h2>Cертификат</h2>
+</div>
+<div class="content_row">
+	<h2>Подписываемое значение</h2>
+	<textarea id="sertificatedData">Some data.</textarea>
+</div>
+<div class="content_row">
+	<input type="button" value="start" id="buttonRun" onclick="MakeSign();"/>
+</div>
+<div class="content_row" style="display:none;">
+	<h2>Результат</h2>
+	<div id="signature"></div>
+</div>
+<div class="content_row">
+	<h2>Содержимое файла</h2>
+	<div id="fileText"></div>
+</div>
+<object id="cadesplugin" type="application/x-cades" class="hiddenObject"></object>

@@ -1,0 +1,90 @@
+﻿@model Kadastr.WebApp.Models.BaseDomainEntityDTO
+
+@{
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";	
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/EntityEditorEditCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/EntityEditorEditJs")
+
+	<script>
+		var isMVCpage = true;
+		var agv = new AttributeGroupNavigator();
+		$(document).ready(function () {
+			$('#myTab a:first').tab('show');
+			agv.init();
+		});
+	</script>
+}
+
+@{Html.BeginForm("SaveEntity", "EntityEditor", FormMethod.Post);}
+
+<div class="row" style="margin-top: 15px;">
+	<div class="col-md-10  col-md-offset-1 text-right">
+		<button type="submit" class="btn btn-primary">Сохранить</button>
+		<button type="button" class="btn btn-primary" onclick="window.close();">Закрыть</button>
+	</div>
+</div>
+
+<div class="row">
+	<ul class="nav nav-tabs" id="myTab">
+		<li><a href="#Main" data-toggle="tab">Свойства объекта</a></li>
+		@{
+			if (ViewBag.AttributesOrder.HasCalculationArendaAttribute)
+			{
+				<li><a href="#CalcArendaTab" data-source="../CalculationArenda/GetPartial?id=@Model.Id" data-toggle="tab">Расчет арендной платы</a></li>
+			}
+		}
+		@*@{
+			Kadastr.Domain.clsOperationType operationType = (Kadastr.Domain.clsOperationType)ViewBag.OparerationType;
+			foreach (Kadastr.Domain.clsBookmarks bookmark in operationType.colBookmarks)
+			{
+			<li><a href="#@bookmark.Id" data-toggle="tab">@bookmark.sName</a></li>
+			}
+		}*@
+	</ul>
+</div>
+
+<div class="row">
+	<div class="col-md-10  col-md-offset-1">
+		<div class="tab-content">
+			<div class="tab-pane" id="Main">
+				<div class="info-header">
+					<!-- Заголовок страницы редактирования -->
+					<div class="row">
+						<div class="col-md-3">Наименование</div>
+						<div class="col-md-9">
+							<div class="col-md-12">@Html.DisplayFor(m => m.Name)</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">Дата проведения операции</div>
+						@{
+							Kadastr.WebApp.Models.AttributeValueDTO dateNow = new AttributeValueDTO();
+							dateNow.Type = "Date";
+							dateNow.Value = string.Format("<AttributeValue><MainValue>{0}-{1}-{2}</MainValue></AttributeValue>", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+						}
+						<div class="col-md-9">
+							@Html.EditorFor(operationDate => dateNow, new { controlName = "operationDate" })
+						</div>
+					</div>
+				</div>
+				<!-- Тело страницы редактирования -->
+				@Html.EditorForModel(new { AttributesOrder = ViewBag.AttributesOrder })
+			</div>
+			@{
+				if (ViewBag.AttributesOrder.HasCalculationArendaAttribute)
+				{
+					<div class="tab-pane" id="CalcArendaTab">
+					</div>
+				}
+			}
+		</div>
+	</div>
+</div>
+@{Html.EndForm();}
+

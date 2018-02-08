@@ -1,0 +1,27 @@
+﻿@model Kadastr.WebApp.Models.AttributeValueDTO
+
+@{
+	string guid = Guid.NewGuid().ToString();
+	
+	<div class="col-md-12 dictionary-AVcontrol id-guid-control" id="@guid">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th class="additional-table-field"></th>
+					<th>Значение справочника</th>
+					<th class="remove-padding-right">
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		
+		<input type="hidden" class="col-md-12" value="@Model.Value" name="@(ViewBag.ControlName + ".Value")"/>	 
+		<input type="hidden" class="col-md-12" value="@Model.IsMultiple.ToString()" name="@(ViewBag.ControlName + ".IsMultiple")"/>	 
+		<input type="hidden" class="col-md-12" value="@Model.IdDictionary" name="@(ViewBag.ControlName + ".IdDictionary")"/>
+		<input type="hidden" class="col-md-12" value="@Model.Id" name="@(ViewBag.ControlName + ".Id")"/>
+		<input type="hidden" class="col-md-12" value="@Model.IdAttribute" name="@(ViewBag.ControlName + ".IdAttribute")"/>
+		<input type="hidden" class="col-md-12" value="@Model.Type" name="@(ViewBag.ControlName + ".Type")"/>
+	</div>
+}	

@@ -1,0 +1,38 @@
+﻿@using Kadastr.DomainModel
+@using Kadastr.WebApp.Code
+@using Kadastr.WebApp.Code.Extensions
+@model IEnumerable<ExportSettings>
+
+@{
+    ViewBag.Title = "Список настроек экспорта";
+    Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+<link href="@Url.Content(string.Format("~/App_Themes/{0}/Buttons.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+<link href="@Url.Content(string.Format("~/App_Themes/{0}/PageMaster.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+<link href="@Url.Content(string.Format("~/App_Themes/{0}/Content.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+@System.Web.Optimization.Styles.Render("~/bundles/ExtendedExportListCss")
+@System.Web.Optimization.Scripts.Render("~/bundles/ExtendedExportListJs")
+
+@Html.ActionsPartial(!Model.Any(), null, "Создать", "Выбрать")
+
+@{
+    var grid = Html.Grid(Model);
+}
+@grid.GetHtml(
+        columns: grid.Columns(
+            grid.Column("Name", "Настройки экспорта", item => new HtmlString(item.Name
+                    + @Html.Hidden("hiddenEditLink", Url.Action("Edit", new { id = item.Id }))
+                    + @Html.Hidden("hiddenDeleteLink", Url.Action("Delete",
+                    new { enumEntityType = (int)item.EnumEntityType, idType = item.IdType, id = item.Id })))))
+         )
+
+<script src="~/Scripts/Controls/WebGrid.js" type="text/javascript"></script>
+<script type="text/javascript">
+    window.gridStyles = window.gridStyles ? window.gridStyles : new GridStyles();
+    function GridStyles() {
+        this.selectedRowStyle = '@GridStyleConstants.SelectedRowStyle';
+        this.alternatingRowStyle = '@GridStyleConstants.AlternatingRowStyle';
+        this.rowStyle = '@GridStyleConstants.RowStyle';
+    }
+</script>

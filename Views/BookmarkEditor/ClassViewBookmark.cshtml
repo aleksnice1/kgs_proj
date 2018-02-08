@@ -1,0 +1,144 @@
+﻿@using Kadastr.WebApp.Code.Extensions
+@model Kadastr.DomainModel.BookmarkClassView
+@{
+	Layout = null;	
+}
+
+<h1>Представление класса</h1>
+@{Html.BeginForm("SaveClassBookmarkAct", "BookmarkEditor", FormMethod.Post);}
+<div class="content_row">
+	<div class="item_description requiredfield">
+		Название
+	</div>
+	<div class="item_value">
+		@Html.TextBoxFor(model => model.Name, new { @value = @Model.Name })
+		@Html.ValidationMessageFor(model => model.Name)
+	</div>
+</div>
+<div class="content_row" id="EntityTypeRow" style="display: none;">
+	<div class="item_description requiredfield">
+		Тип сущности
+	</div>
+	<div class="item_value">
+		@Html.DropDownListFor(model => model.IdEntityType, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите тип ---", Value = "" } }, new { @disabled = "disabled", @onchange = "EntityTypeChanged();" })
+		@Html.ValidationMessageFor(model => model.IdEntityType)
+	</div>
+</div>
+<div class="content_row" style="display: none;">
+	<div class="item_description requiredfield">
+		Подтипы сущности
+	</div>
+	<div class="item_value">
+		@Html.ListBoxFor(model => model.GuidEntitySubtypes, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите подтипы ---", Value = "" } }, new { @disabled = "disabled" })
+		@Html.ValidationMessageFor(model => model.GuidEntitySubtypes)
+	</div>
+</div>
+<div class="content_row" style="display: none;">
+	<div class="item_description requiredfield">
+		Категория класса
+	</div>
+	<div class="item_value">
+		@Html.DropDownListFor(model => model.IdClassCategory, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите класс ---", Value = "" } }, new { @disabled = "disabled" })
+		@Html.ValidationMessageFor(model => model.IdClassCategory)
+	</div>
+</div>
+<div class="content_row" style="display: none;">
+    <div class="item_description requiredfield">
+        Представление
+    </div>
+    <div class="item_value">
+        @Html.DropDownListFor(model => model.IdView, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите представление ---", Value = "" } }, new { @disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.IdView)
+    </div>
+</div>
+<div class="content_row">
+    <div class="item_description">
+        С учетом иерархии
+    </div>
+    <div class="item_value">
+        @Html.CheckBoxFor(model => model.WithHierarchy)
+    </div>
+</div>
+<div class="content_row" style="display: none;">
+    <div class="item_description">
+        Атрибут для иерархии сущностей
+    </div>
+    <div class="item_value">
+        @{
+            var items = ViewBag.HierarchyAttributes as IEnumerable<SelectListItem>;
+            var htmlAttributes = HtmlHelperExtention.ConditionalDisable(!Model.WithHierarchy);
+        }
+        @Html.DropDownListFor(model => model.IdHierarchyAttribute, items, htmlAttributes)
+        @Html.ValidationMessageFor(model => model.IdHierarchyAttribute, null, htmlAttributes)
+    </div>
+</div>
+<div class="content_row control_panel">
+	<input type="button" value="Отменить" class="big_button" onclick="CancelClick()" />
+	<input type="submit" value="Сохранить" class="big_button" />
+</div>
+<input id="IsNewBookmark" type="hidden" value="@Model.IsNew.ToString()">
+@{Html.EndForm();}
+<script>	
+	makeRequiredField();
+
+	$(document).ready(function () {
+		// Запрос доступных типов сущности
+	    $.getJSON(urlEntityTypes, {}, getTypes);
+	    
+	    $("#WithHierarchy").click(function () {
+	        var hierarchyAttribute = '#IdHierarchyAttribute';
+	        if ($(this).is(':checked')) {
+	        	$(hierarchyAttribute).removeAttr("disabled");
+	        	ChangeAvailability(hierarchyAttribute, true);
+	        } else {
+	        	$(hierarchyAttribute).attr("disabled", "disabled");
+	        	ChangeAvailability(hierarchyAttribute, false);
+	        }
+	    });
+
+	    $.validator.unobtrusive.parse("form");
+	});
+
+	// Выбран тип сущности
+	function EntityTypeChanged() {
+		$("#GuidEntitySubtypes").attr("disabled", "disabled");
+		$("#IdClassCategory").attr("disabled", "disabled");
+		$("#IdView").attr("disabled", "disabled");
+		ChangeAvailability("#GuidEntitySubtypes", false);
+		ChangeAvailability("#IdClassCategory", false);
+		ChangeAvailability("#IdView", false);
+		var val = $("#IdEntityType option:selected").val();
+		if (val != '0' && val != '') {
+			$.getJSON(urlEntitySubtypes, { entityTypeEnum: val }, getSubtypes);
+			$.getJSON(urlClassCategories, { entityTypeEnum: val }, getClassCategories);
+			$.getJSON(urlClassViewes, { entityTypeEnum: val }, getClassViewes);
+		}
+	}
+
+	// Пришли типы выбранного типа сущности
+	function getTypes(x) {
+		FillControl("#IdEntityType", x);
+		if (HasSelected("#IdEntityType"))
+			EntityTypeChanged();
+
+		$.validator.unobtrusive.parse("form");
+	}
+	// Пришли подтипы выбранного типа сущности
+	function getSubtypes(x) {
+		FillControl("#GuidEntitySubtypes", x);
+
+		$.validator.unobtrusive.parse("form");
+	}
+	// Пришли аттрибуты выбранного подтипа сущности
+	function getClassCategories(x) {
+		FillControl("#IdClassCategory", x);
+
+		$.validator.unobtrusive.parse("form");
+	}
+	// Пришли представления выбранного подтипа сущности
+	function getClassViewes(x) {
+		FillControl("#IdView", x);
+
+		$.validator.unobtrusive.parse("form");
+	}
+</script>

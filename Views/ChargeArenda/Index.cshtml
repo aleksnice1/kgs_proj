@@ -1,0 +1,68 @@
+﻿@{
+	Layout = null;
+}
+
+<div id="ChargeArenda" class="row">
+	<!-- Начисления и детализации арендной платы -->
+	<div class="row">
+		<!-- Начисления арендной платы -->
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Начисление арендной платы</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-right">
+					<button class="btn btn-primary btn-sm" onclick="ChargeArenda.Charge.AddCharge();">Добавить проводку</button>
+					@Html.ActionLink("Экспорт в Excel", "ButtonExportChargeClick", new { }, new { @class = "btn btn-primary btn-sm" })
+				</div>
+			</div>
+			<div id="ChargeGridPlace" class="row">
+			</div>
+			<script type="text/javascript">
+				ChargeArenda.Charge.CreateGrid();
+			</script>
+		</div>
+
+		<!-- Детализации начислений по дате -->
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Детализация начислений по дате</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 button-group-transaction">
+					
+				</div>
+			</div>
+			<div id="ChargeDetailGridPlace" class="row">
+			</div>
+			<script type="text/javascript">
+				ChargeArenda.Detail.CreateGrid();
+			</script>
+		</div>
+	</div>
+		
+	<!-- Перечисление арендной платы -->
+	<div class="row">
+		<div class="col-md-12">
+			<!-- Заголовок и кнопки -->
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Перечисление арендной платы</h3>
+				</div>
+				<div class="col-md-6 text-right button-group-transaction">
+					<button class="btn btn-primary btn-sm" onclick="ChargeArenda.Transfer.AddTransfer();">Добавить проводку</button>
+					@Html.ActionLink("Экспорт в Excel", "ButtonExportTransferClick", new { }, new { @class = "btn btn-primary btn-sm" })
+				</div>
+			</div>
+			<!-- Таблица перечисление арендной платы -->
+			<div id="TransferGridPlace" class="row"></div>
+			<script type="text/javascript">
+				ChargeArenda.Transfer.CreateGrid();
+			</script>
+		</div>
+	</div>
+</div>

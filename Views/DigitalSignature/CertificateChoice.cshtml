@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+
+@section StyleSheets{
+	<style>
+		#buttonRun {
+			width: 100px;
+			height: 40px;
+			float: left;
+			cursor: pointer;
+		}
+	</style>
+}
+
+@section JavaScripts{
+    @System.Web.Optimization.Scripts.Render("~/bundles/DigitalSignatureCertificateChoiceJs")
+}
+
+<div class="content_row" id="sertRow">
+	<h2>Cертификат:</h2>
+
+    <p id="notFoundCertificatesMessage">
+        сертификаты не найдены
+    </p>
+</div>
+<div class="content_row">
+	<input type="button" value="выбрать" id="buttonRun" />
+</div>
+<object id="cadesplugin" type="application/x-cades" class="hiddenObject" style="width: 0; height: 0;"></object>

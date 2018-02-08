@@ -1,0 +1,15 @@
+﻿@model string
+@{
+	Layout = null;	
+}
+
+<script src="@Url.Content("~/Scripts/Controls/datepicker.js")"></script>
+@Html.TextBox("dateFormula", Model, new { @class = "dateFormula"})
+
+<script>
+	var dateSelector = ".dateFormula";
+	//формат даты
+	$(dateSelector).datepicker({ format: 'dd.mm.yyyy' });
+
+	SetInputMasks();
+</script>

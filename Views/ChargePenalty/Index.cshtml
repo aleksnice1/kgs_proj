@@ -1,0 +1,121 @@
+﻿@{
+	Layout = null;
+}
+<div id="ChargePenalty" class="row">
+	<!-- Параметры начисления пени -->
+	<div class="row">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Параметры начисления пени</h3>
+			</div>
+		</div>
+		<div class="row">
+		<!-- Добавление параметра начиления пени -->
+		<div class="row" id="AddPeniSettingRow">
+			<div class="col-md-6 remove-padding-left">
+				<select class="form-control" id="PeniType"></select>
+			</div>
+			<div class="col-md-2">
+				<input class="form-control" type="text" id="PeniDate" data-type="calendar"/>
+			</div>
+			<div class="col-md-2">
+				<button title="Добавить" class="btn btn-success" onclick="ChargePenalty.Parametrs.AddPeniSetting();">+</button>
+			</div>
+			<div class="col-md-2">
+				<input class="form-control" type="text" id="SelectedFormula" style="display: none;"/>
+			</div>
+			<script type="text/javascript">
+				ChargePenalty.Parametrs.GetEnabledPeniTypes();
+			</script>
+		</div>
+		<!-- Таблица параметров начиления пени -->
+		<div class="row" id="ChargePenaltyParametrs">
+		</div>
+		<script type="text/javascript">
+			ChargePenalty.Parametrs.CreateGrid();
+		</script>
+	</div>
+
+	<!-- Начисление/перечисление пени -->
+	<div class="row">
+		<div class="row">
+			<!-- Заголовок -->
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Начисление пени</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-right">	
+						<button class="btn btn-primary btn-sm" onclick="ChargePenalty.Charge.AddCharge();">Добавить проводку</button>
+						@Html.ActionLink("Экспорт в Excel", "ButtonExportChargeClick", new { }, new { @class = "btn btn-primary btn-sm" })
+						<button class="btn btn-primary btn-sm" onclick="ChargePenalty.Charge.ShowRecalcWindow();">Пересчет пени</button>				
+					</div>
+				</div>
+				<div class="panel panel-default" id="RecalcWindow">
+					<form>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-1">
+								<input type="radio" id="ForToday" name="period"/>
+							</div>
+							<div class="col-md-11">
+								По сегодняшний день
+							</div>							
+						</div>
+						<div class="row">
+							<div class="col-md-1">
+								<input type="radio" id="ForPeriod" name="period"/>
+							</div>
+							<div class="col-md-3">
+								За период с
+							</div>
+							<div class="col-md-3">
+								<input type="text" id="DateStart" data-type="calendar" class="form-control input-sm"/>
+							</div>
+							<div class="col-md-1">
+								по
+							</div>
+							<div class="col-md-3">
+								<input type="text" id="DateEnd" data-type="calendar" class="form-control input-sm"/>
+							</div>		
+						</div>
+						<div class="row text-right">
+							<button class="btn btn-primary btn-sm" onclick="ChargePenalty.Charge.RecalcPeni();">Начислить</button>
+							<button class="btn btn-primary btn-sm" onclick="ChargePenalty.Charge.HideRecalcWindow();">Отменить</button>
+						</div>
+					</div>
+					</form>
+				</div>
+				<div id="ChargeGridPlace" class="row"></div>
+				<script type="text/javascript">
+					ChargePenalty.Charge.CreateGrid();
+				</script>
+			</div>
+			<!-- Заголовок -->
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Перечисление пени</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-right">	
+						<button class="btn btn-primary btn-sm" onclick="ChargePenalty.Transfer.AddTransfer();">Добавить проводку</button>
+						@Html.ActionLink("Экспорт в Excel", "ButtonExportTransferClick", new { }, new { @class = "btn btn-primary btn-sm" })				
+					</div>
+				</div>
+				<div id="TransferGridPlace" class="row"></div>
+				<script type="text/javascript">
+					ChargePenalty.Transfer.CreateGrid();
+				</script>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		$("[data-type = 'calendar']").datepicker({ format: 'dd.mm.yyyy' });
+		SetInputMasks();
+	</script>	
+</div>

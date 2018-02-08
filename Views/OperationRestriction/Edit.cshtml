@@ -1,0 +1,37 @@
+﻿@model Kadastr.WebApp.Models.OperationRestrictionDTO
+@{
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";	
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/OperationRestrictionEditCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/OperationRestrictionEditJs")
+	<script>
+		var isMVCpage = true;
+		var MVCCalendarEnabled = true;
+		$(document).ready(function () {
+
+		});
+	</script>
+}
+@{Html.BeginForm("Save", "OperationRestriction", FormMethod.Post);}
+<div class="row page-header" style="margin-top: 15px;">
+	<div class="col-md-6 col-md-offset-1">
+		<h1>Ограничение операции 
+			<small>@ViewBag.EditingStat</small>
+		</h1>
+	</div>
+	<div class="col-md-4 text-right">
+		<button type="submit" class="btn btn-primary">Сохранить</button>
+		<button type="button" class="btn btn-primary" onclick="window.close();">Закрыть</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-10  col-md-offset-1">
+		@Html.EditorForModel()
+	</div>
+</div>
+@{Html.EndForm();}

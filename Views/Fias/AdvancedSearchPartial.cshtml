@@ -1,0 +1,89 @@
+﻿@{
+	Layout = null;
+}
+
+<!-- AdvancedSearch -->
+<script src="@Url.Content("~/Scripts/Fias/FiasAdvancedSearch.js")" type="text/javascript" ></script>
+
+<div id="divExtendedSearch">
+	<table class="text_field">
+		<tr>
+			<td>
+				Регион:
+			</td>
+			<td>
+				<div id="divAoLevel1">
+					<input id="slAoLevel1" type="text" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel1" type="hidden"/>
+					<input id="hiddenAoLevel1Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Район:
+			</td>
+			<td>
+				<div id="divAoLevel3">
+					<input id="slAoLevel3" type="text" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel3" type="hidden"/>
+					<input id="hiddenAoLevel3Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Город:
+			</td>
+			<td>
+				<div id="divAoLevel4">
+					<input id="slAoLevel4" type="text" name="slAoLevel4" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel4" type="hidden"/>
+					<input id="hiddenAoLevel4Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Внутригородской район:
+			</td>
+			<td>
+				<div id="divAoLevel5">
+					<input id="slAoLevel5" type="text" name="slAoLevel5" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel5" type="hidden"/>
+					<input id="hiddenAoLevel5Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Населенный пункт:
+			</td>
+			<td>
+				<div id="divAoLevel6">
+					<input id="slAoLevel6" type="text" name="slAoLevel6" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel6" type="hidden"/>
+					<input id="hiddenAoLevel6Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+		<td>
+				Улица:
+			</td>
+			<td>
+				<div id="divAoLevel7">
+					<input id="slAoLevel7" type="text" name="slAoLevel7" class="advancedSearchSelect"/>
+					<input id="hiddenAoLevel7" type="hidden"/>
+					<input id="hiddenAoLevel7Aoid" type="hidden"/>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+<div id="divAdvancedSearchButtons" class="text_field">
+	<a href='javascript:void(0)' onclick='fiasAdvancedSearchOk()'>Ок</a>
+	<a href='javascript:void(0)' onclick='fiasAdvancedSearchCancel()' >Отмена</a>
+</div>
+</div>
+

@@ -1,0 +1,52 @@
+﻿@model Kadastr.WebApp.Models.BaseDomainEntityDTO
+
+@Html.LabelFor(m => m.Id)
+@{
+	// Если задана группировка атрибутов
+	if (ViewData["AttributesOrder"] != null)
+	{
+		Kadastr.WebApp.Controllers.AttributesOrder attributesOrder = (Kadastr.WebApp.Controllers.AttributesOrder)ViewData["AttributesOrder"];
+		foreach (Kadastr.WebApp.Controllers.AttributesGroup group in attributesOrder.Groups)
+		{
+			<div class="panel panel-default">
+				<!-- Заголовок группы -->
+				<div class="panel-heading">@group.Name</div>
+				<!-- Тело группы -->
+				<div class="panel-body">
+					@{					
+						long counter = 0;
+						foreach (long idAttr in group.Attributes)
+						{
+							AttributeValueDTO editedAV = Model.AttributeValues.Find(av => av.IdAttribute == idAttr);
+							if (editedAV != null){
+								<div class="row">
+									<div class="col-md-3">@editedAV.AttributeName</div>
+									<div class="col-md-9">
+										@Html.DisplayFor(m => editedAV, new { controlName = "AttributeValues[" + counter + "]" })
+									</div>
+								</div>
+								counter++;
+							}
+						}
+					}
+				</div>
+			</div>
+		}
+	}
+	// Иначе выводим все атрибуты по порядку
+	else{
+		for (int i = 0; i < Model.AttributeValues.Count; i++)
+		{
+			if (Model.AttributeValues[i] != null)
+			{ 	
+			<div class="row">
+				<div class="col-md-3">@Model.AttributeValues[i].AttributeName</div>
+				<div class="col-md-9">
+					@Html.DisplayFor(m => m.AttributeValues[i], new { controlName = "AttributeValues[" + i + "]" })
+				</div>
+			</div>
+			}
+		}
+	}
+}
+

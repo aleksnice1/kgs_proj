@@ -1,0 +1,81 @@
+﻿@using Kadastr.WebApp.Code
+@{
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/SharedHeaderMasterCss")
+	<link href="@Url.Content(string.Format("~/App_Themes/{0}/Buttons.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content(string.Format("~/App_Themes/{0}/PageMaster.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content(string.Format("~/App_Themes/{0}/EnterPage.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content(string.Format("~/App_Themes/{0}/Content.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+
+	@RenderSection("StyleSheets", false)
+}
+
+@section JavaScripts{
+	
+	@System.Web.Optimization.Scripts.Render("~/bundles/SharedHeaderMasterJs")
+
+	@RenderSection("JavaScripts", false)
+}
+
+<div class="preheader">
+</div>
+<div class="header">
+	<a href="../@SiteMasterInfo.MainPageUrl">
+		<div class="logo">
+			<img id="LogoImage" alt="Image text" src="@Url.Content("~/" + SiteMasterInfo.LogoUrl)"/>
+		</div>
+	</a>
+	<div class="project_name">
+		<table>
+			<tr>
+				<td>
+					@SiteMasterInfo.Title
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="user_info">
+		<div class="user_name">
+			@Html.Partial("LogOnPartial")
+		</div>
+		<div class="head_butt" style= '@SiteMasterInfo.DisplayIfNotMaintenanceMode'>
+			<div class="btn-group btn-group-xs pull-right">
+				@{
+					var highNotes = SiteMasterInfo.HighNotificationCount;
+					if (highNotes > 0){
+						<button type="button" class="btn btn-danger" onclick="WindowOpen('NotificationMessageReestr.aspx?Priority=High', 1000, 800);">
+							<span class="message-span">
+								важных:
+							</span>&nbsp<span id="NotificationHighPriority">@highNotes</span></button>
+					}
+				}				
+				<button type="button" class="btn btn-danger" onclick="WindowOpen('NotificationMessageReestr.aspx?Priority=Normal', 1000, 800);"><span>
+						|&nbsp прочих:
+					</span>
+					&nbsp<span id="Notification">@SiteMasterInfo.NormalNotificationCount</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="navigate">
+	@Html.Partial("BreadCrumbs")
+</div>
+<div class="content">
+	@RenderBody()
+</div>
+<div class="footer" id="tdBottomCaption">
+	@SiteMasterInfo.Footer
+</div>
+<script type="text/javascript">
+	fullApplicationPath = '@SiteMasterInfo.FullApplicationPath';
+
+	window.gridStyles = window.gridStyles ? window.gridStyles : new GridStyles();
+	function GridStyles() {
+		this.selectedRowStyle = '@GridStyleConstants.SelectedRowStyle';
+		this.alternatingRowStyle = '@GridStyleConstants.AlternatingRowStyle';
+		this.rowStyle = '@GridStyleConstants.RowStyle';
+	}
+</script>

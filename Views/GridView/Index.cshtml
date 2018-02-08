@@ -1,0 +1,44 @@
+﻿@{
+	Layout = null;
+}
+<!doctype html>
+ 
+<html lang="ru">
+<head>
+	<meta http-equiv="Cache-Control" content="max-age=86400, must-revalidate" />
+    <meta charset="utf-8" />
+    <title>GridView</title>
+	@System.Web.Optimization.Styles.Render("~/bundles/GridViewIndexCss")
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var enabled = true;
+
+			if ($(".loggerEnabled").length > 0) {
+				enabled = $(".loggerEnabled").val() == "True";
+			};
+
+			var loggerOptions = {
+				makeLogs: false,
+				makeWarnings: enabled,
+				makeErrors: enabled
+			};
+			c = new fluentLogger(loggerOptions);
+		});
+	</script>
+	@System.Web.Optimization.Scripts.Render("~/bundles/GridViewIndexJs")
+</head>
+<body>
+	<div>
+		<div id="GridPlace">
+		</div>
+		<input type="hidden" id="EntityType" value="@ViewBag.EntityType"/>
+	</div>
+
+	<input type="button" onclick="enabledScroll = 1;
+	GetGridModel();"/>
+</body>
+</html>
+
+
+

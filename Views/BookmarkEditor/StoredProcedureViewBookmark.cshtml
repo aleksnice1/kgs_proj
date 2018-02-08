@@ -1,0 +1,41 @@
+﻿@model Kadastr.DomainModel.BookmarkStoredProcedure
+@{
+	Layout = null;	
+}
+
+<h1>Представление хранимой процедуры </h1>
+@{Html.BeginForm("SaveStoredProcedureBookmarkAct", "BookmarkEditor", FormMethod.Post);}
+<div class="content_row">
+	<div class="item_description requiredfield">
+		Название
+	</div>
+	<div class="item_value">
+		@Html.TextBoxFor(model => model.Name, new { @value = @Model.Name })
+		@Html.ValidationMessageFor(model => model.Name)
+	</div>
+</div>
+<div class="content_row" style="display: none;">
+	<div class="item_description requiredfield">
+		Хранимая процедура
+	</div>
+	<div class="item_value">
+		@Html.DropDownListFor(model => model.ProcedureName, new List<SelectListItem>() { new SelectListItem() { Text = "--- Выберите хранимую процедуру ---", Value = "" } }, new { @disabled = "disabled" })
+		@Html.ValidationMessageFor(model => model.ProcedureName)
+	</div>
+	<div class="content_row control_panel">
+		<input type="button" value="Отменить" class="big_button" onclick="CancelClick()" />
+		<input type="submit" value="Сохранить" class="big_button" />
+	</div>
+	<input id="IsNewBookmark" type="hidden" value="@Model.IsNew.ToString()">
+	@{Html.EndForm();}
+	<script>
+		// Запрос доступных отчетов
+		$.getJSON(urlStoredProcedures, {}, getStoredProcedures);
+		makeRequiredField();
+
+		// Пришли отчеты
+		function getStoredProcedures(x) {
+			FillControl("#ProcedureName", x);
+			$.validator.unobtrusive.parse("form");
+		}
+	</script>

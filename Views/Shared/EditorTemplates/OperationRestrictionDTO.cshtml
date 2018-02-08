@@ -1,0 +1,49 @@
+﻿@model Kadastr.WebApp.Models.OperationRestrictionDTO
+
+@Html.EditorFor(Id => Model.Id)
+@Html.EditorFor(Id => Model.IdOperation)
+<div class="panel panel-default">
+	<div	class="panel-heading cursor-pointer" data-toggle="collapse" 
+			data-target="#restriction-rules">
+		Правила ограничения
+	</div>
+	<div id="restriction-rules" class="panel-body collapse in">
+		@{
+			int counter = 0;
+			foreach (OperationRestrictionRuleDTO rule in Model.Rules) { 
+				<div class="row rule-row" data-rule-number="@counter">
+					@Html.EditorFor(r => rule, new { ControlName = "Rules[" + counter + "]" })					
+					<div class="col-md-1 text-right">
+						<button	type="button" class="btn btn-danger btn-sm" aria-hidden="true" 
+								onclick="orc.DeleteOperationRule('@counter');"
+								title="Удалить строку правила">&times;</button>
+					</div>
+				</div>
+				counter++;
+			}
+		}
+
+		<div class="row" id="AddRestrictionRuleRow">
+			@Html.EditorFor(f => Model.AddRow, new { ControlName = "Rules[#]"})
+			<div class="col-md-1 text-right">
+				<button type="button" class="btn btn-success btn-sm" aria-hidden="true" 
+						onclick="orc.AddOperationRule();"
+						title="Добавить строку правила. Недобавленное правило не учитывается">+</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3">Формула</div>
+	<div class="col-md-9">
+		<input class="form-control" type="text" data-type="text" name="Formula" value="@Model.Formula" />
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3">Сообщение об ошибке</div>
+	<div class="col-md-9">
+		<textarea class="form-control" data-type="multitext" rows="3" name="ErrorMessage" id="ErrorMessage">@Model.ErrorMessage</textarea>
+	</div>
+</div>
+

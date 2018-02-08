@@ -1,0 +1,26 @@
+﻿@model ArendaPeriodViewModel
+
+@{
+    ViewBag.Title = "Добавление периода";
+    Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "ArendaPeriod", FormMethod.Post, new { id = "editForm" }))
+{
+    <div class="content_row">
+        <input type="submit" value="Сохранить" class="blue_button_filter" />
+        @Html.ActionLink("Отмена", "Index", null, new { @class = "blue_button_filter" })
+    </div>
+    <div class="content_row">
+        @Html.ValidationSummary(true)
+    </div>
+    <div class="content_row">
+        <div class="item_value">
+            @*@Html.Partial("Date", @Model.EndDate)*@
+            @Html.EditorFor(model => model.EndDate)
+            <br />
+            @Html.ValidationMessageFor(model => model.EndDate)
+        </div>
+    </div>
+}
+<script src="~/Scripts/Controls/WebGrid.js" type="text/javascript"></script>

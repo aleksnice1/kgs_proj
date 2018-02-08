@@ -1,0 +1,116 @@
+﻿<html>
+    <head>
+        <title>Калькулятор дат</title>
+		@System.Web.Optimization.Styles.Render("~/bundles/FormulaHelperIndexCss")
+		@System.Web.Optimization.Scripts.Render("~/bundles/FormulaHelperIndexJs")
+    </head>
+<body>
+<table>
+    <tr>
+        <td>
+            формула: @Html.TextBox("dateFormula")
+        </td>
+        <td>
+            дата начала: @Html.TextBox("currentDate")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="buttonsTable">
+                <tr>
+                    <td>
+                        ТК
+                    </td>
+                    <td>
+                        ТГ
+                    </td>
+                    <td>
+                        ТМ
+                    </td>
+                    <td>
+                        ТД
+                    </td>
+                </tr>
+            </table>
+            <table class="buttonsTable" id="dial">
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        3
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        5
+                    </td>
+                    <td>
+                        6
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        7
+                    </td>
+                    <td>
+                        8
+                    </td>
+                    <td>
+                        9
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        +
+                    </td>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        -
+                    </td>
+                </tr>
+            </table>
+            <table  class="buttonsTable" id="periods">
+                <tr>
+                    <td>
+                        К
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Г
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        М
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Д
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" id="btnResult" class="big_button closeModalWindow" value="Раcсчитать" />
+            @Html.TextBox("result")
+        </td>
+    </tr>
+</table>
+    </body>
+    </html>

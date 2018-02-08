@@ -1,0 +1,21 @@
+﻿@model string
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>SaveEntityBookmarkAct</title>
+	<script>
+		window.opener.RefreshBoolmarks();		
+		self.close();
+	</script>
+</head>
+<body>
+    <div>
+        <h1>Закладка @Model создана</h1>
+    </div>
+</body>
+</html>

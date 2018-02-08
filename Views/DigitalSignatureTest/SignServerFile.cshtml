@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+
+@section StyleSheets{
+	<style>
+		body {
+			width: 800px;
+			margin: auto;
+		}
+	</style>
+}
+
+@section JavaScripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/markupHelper.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/DigitalSignature.js")"></script>	
+}
+
+<h1>SignServarFile Test</h1>
+<div class="content_row" id="sertRow">
+	<h2>Файл</h2>
+</div>
+
+<object id="cadesplugin" type="application/x-cades" class="hiddenObject"></object>
+

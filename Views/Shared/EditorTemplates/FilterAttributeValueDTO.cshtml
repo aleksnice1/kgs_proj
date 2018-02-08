@@ -1,0 +1,33 @@
+﻿@model Kadastr.WebApp.Models.FilterAttributeValueDTO
+
+@{
+	Dictionary<long, string> filteringAttributes = (Dictionary<long, string>)ViewData["FilteringAttributes"];
+	string controlName = ViewData.ContainsKey("ControlName") ? ViewBag.ControlName : ViewData.TemplateInfo.HtmlFieldPrefix;
+}	
+
+@{
+	string guid = Guid.NewGuid().ToString();
+<div class="row filter-attribute-value id-guid-control" id="@guid">
+	<!-- Атрибут -->
+	<div class="col-md-4 fa-container">
+		<select name="@(controlName + ".AttributeId")" class="form-control input-sm" onchange="favContr.AttributeChanged('@guid'); SelectChanged(this);">
+		@foreach(KeyValuePair<long, string> kvp in filteringAttributes){
+			<option @((kvp.Key == Model.AttributeId) ? "selected=\"selected\"" : string.Empty) value="@kvp.Key">@kvp.Value</option>	
+		}
+		</select>
+	</div>
+	<!-- Логическое выражение -->
+	<div class="col-md-2 fle-container">
+	</div>
+	<!-- Значение атрибута -->
+	<div class="col-md-6 fav-container">
+	</div>
+
+	<input type="hidden" class="col-md-12" value="@Model.LogicalExpression" name="LogicalExpression"/>
+	<input type="hidden" class="col-md-12" value="False" name="fle-ready"/>
+	<input type="hidden" class="col-md-12" value="False" name="fav-ready"/>
+
+	<input type="hidden" class="col-md-12" value="@((Model.AttributeValue != null) ? Model.AttributeValue.Value : string.Empty)" name="FilterValue"/>
+	<input type="hidden" class="col-md-12" value="@(controlName+".")" name="HtmlFieldPrefix"/>
+</div>
+}	

@@ -1,0 +1,109 @@
+﻿@{
+	ViewBag.Title = "Смена типа атрибута";
+	Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/AttributeTypeChangeChangeTypeCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/AttributeTypeChangeChangeTypeJs")
+}
+
+<div>
+	<h1>Смена типа атрибута</h1>
+	<div class="content_row group">
+		<h2>Редактируемый атрибут:</h2>
+		<div class="item_description">
+			Тип сущности
+		</div>
+		<div class="item_value">
+			@Html.DropDownList(
+				"EntityType",
+				(List<SelectListItem>)ViewBag.DDLEntityTypes,
+				new
+				{
+					@onchange = "EntityTypeChanged()"
+				}
+			)
+		</div>
+	</div>
+	<div class="content_row">
+		<div class="item_description">
+			Подтип сущности
+		</div>
+		<div class="item_value">
+			@Html.DropDownList(
+				"EntitySubtype",
+				new List<SelectListItem>() { 
+					new SelectListItem() { 
+						Text = "--- Выберите подтип ---", 
+						Value = "0" 
+					} 
+				},
+				new
+				{
+					@disabled = "disabled",
+					@onchange = "EntitySubtypeChanged()"
+				}
+			)
+		</div>
+	</div>
+	<div class="content_row">
+		<div class="item_description">
+			Атрибут
+		</div>
+		<div class="item_value">
+			@Html.DropDownList(
+				"EntitySubtypeAttribute",
+				new List<SelectListItem>() { 
+					new SelectListItem() { 
+						Text = "--- Выберите утрибут ---", 
+						Value = "0" 
+					} 
+				},
+				new
+				{
+					@disabled = "disabled",
+					@onchange = "EntityAttributeChanged()"
+				}
+			)
+		</div>
+	</div>
+	<div class="content_row group">
+		<h2>Тип атрибута:</h2>
+		<div class="ChangeTypeRow">
+			@Html.TextBox(
+			"AttributeType",
+			"",
+			new
+			{
+				@class = "AttrType"
+			}
+		)
+		</div>
+		<div class="ChangeTypeRow">
+			<span class="icon">></span>
+		</div>
+		<div class="ChangeTypeRow">
+			@Html.DropDownList(
+				"AttributeEnabledTypes",
+				new List<SelectListItem>() { 
+					new SelectListItem() { 
+						Text = "--- Выберите тип ---", 
+						Value = "0" 
+					} 
+				},
+				new
+				{
+					@disabled = "disabled",
+					@class = "AttrType"
+				}
+			)
+		</div>
+		<div class="ChangeTypeRow">
+			<input type="button" value="Применить" id="ChangeTypeButton" class="kButton mid blue" onclick="ApllyClick();" />
+		</div>	
+	</div>
+</div>

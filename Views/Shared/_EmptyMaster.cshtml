@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Cache-Control" content="max-age=86400, must-revalidate" />
+	<title>@ViewBag.Title</title>
+
+	@System.Web.Optimization.Styles.Render("~/bundles/SharedEmptyMasterCss")
+
+	<style type="text/css">
+	    table{border-collapse:collapse;border-spacing:0;}
+	</style>
+	@RenderSection("StyleSheets", false)
+
+	@System.Web.Optimization.Scripts.Render("~/bundles/SharedEmptyMasterJs")
+	<script type="text/javascript">
+		var c;
+		$(document).ready(function () {
+			var enabled = true;
+
+			if ($(".loggerEnabled").length > 0) {
+				enabled = $(".loggerEnabled").val() == "True";
+			};
+
+			var loggerOptions = {
+				makeLogs: enabled,
+				makeWarnings: enabled,
+				makeErrors: enabled
+			};
+			c = new fluentLogger(loggerOptions);
+		});
+	</script>
+    @if (false)
+    {
+        <script src="~/Scripts/jquery-1.5.1-vsdoc.js" type="text/javascript"></script>
+    }
+    @RenderSection("JavaScripts", false)
+</head>
+<body>
+	<div style="width: 100%;">
+		@RenderBody()
+	</div>
+</body>
+</html>

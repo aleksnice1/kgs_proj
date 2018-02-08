@@ -1,0 +1,28 @@
+﻿@model string
+
+@{
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";	
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/BookmarkEditorIndexCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/BookmarkEditorIndexJs")
+}
+
+<div id="tabs">
+	<ul class="ajax_tabs">
+		<li id="li_EntityBookmark"><a href="BookmarkEditor/EntityViewBookmark">Представление типа</a></li>
+		<li id="li_ClassBookmark"><a href="BookmarkEditor/ClassViewBookmark">Представление класса</a></li>
+		<li id="li_StoredProcedureBookmark"><a href="BookmarkEditor/StoredProcedureViewBookmark">Хранимая процедура</a></li>
+		<li id="li_ReportBookmark"><a href="BookmarkEditor/ReportViewBookmark">Отчет</a></li>
+	</ul>
+	<div id="teb_results">			
+		<div id="tabs_source">Выберите тип закладки</div>
+		<div id="tabs_blocker"><img src="../Images/loader.gif"/></div>
+	</div>
+</div> 
+<input type="hidden" id="bookmarkType" value="@Model"/>
+

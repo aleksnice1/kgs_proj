@@ -1,0 +1,61 @@
+﻿@model Kadastr.WebApp.Models.BaseDomainEntityDTO
+@Html.EditorFor(m => m.Id)
+@{
+	// Если задана группировка атрибутов
+	if (ViewData["AttributesOrder"] != null)
+	{
+		Kadastr.WebApp.Controllers.AttributesOrder attributesOrder = (Kadastr.WebApp.Controllers.AttributesOrder)ViewData["AttributesOrder"];
+		long attrCounter = 0;
+		long groupCounter = 0;
+		foreach (Kadastr.WebApp.Controllers.AttributesGroup group in attributesOrder.Groups)
+		{
+			groupCounter++;
+			<div class="panel panel-default">
+				<!-- Заголовок группы -->
+				<div	id="attribute-group-header-@groupCounter" class="panel-heading cursor-pointer" 
+						data-toggle="collapse" data-target="#attribute-group-@groupCounter">
+					@group.Name
+				</div>
+				<!-- Тело группы -->
+				<div id="attribute-group-@groupCounter" class="panel-body collapse in">
+					@{					
+						foreach (long idAttr in group.Attributes)
+						{
+							AttributeValueDTO editedAV = Model.AttributeValues.Find(av => av.IdAttribute == idAttr);
+							if (editedAV != null){
+								<div class="row">
+									<div class="col-md-3">@editedAV.AttributeName</div>
+									<div class="col-md-9">
+										@if (!editedAV.IsCalculate) { 
+											@Html.EditorFor(m => editedAV, new { controlName = "AttributeValues[" + attrCounter + "]" })
+										}
+										else{
+											@Html.DisplayFor(m => editedAV, new { controlName = "AttributeValues[" + attrCounter + "]" })
+										}
+									</div>
+								</div>
+								attrCounter++;
+							}
+						}
+					}
+				</div>
+			</div>
+		}
+	}
+	// Иначе выводим все атрибуты по порядку
+	else{
+		for (int i = 0; i < Model.AttributeValues.Count; i++)
+		{
+			if (Model.AttributeValues[i] != null)
+			{ 	
+			<div class="row">
+				<div class="col-md-3">@Model.AttributeValues[i].AttributeName</div>
+				<div class="col-md-9">
+					@Html.EditorFor(m => m.AttributeValues[i], new { controlName = "AttributeValues[" + i + "]" })
+				</div>
+			</div>
+			}
+		}
+	}
+}
+

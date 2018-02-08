@@ -1,0 +1,157 @@
+﻿@model ExportSettingViewModel
+@{
+    ViewBag.Title = "Экспорт";
+    Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+<link href="@Url.Content(string.Format("~/App_Themes/{0}/Buttons.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+<link href="@Url.Content(string.Format("~/App_Themes/{0}/PageMaster.css", SiteMasterInfo.Theme))" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/markupHelper.css")" rel="stylesheet" type="text/css" />
+@System.Web.Optimization.Scripts.Render("~/bundles/ExtendedExportEditJs")
+
+@using (Html.BeginForm())
+{
+    <div>
+        <input type="submit" id="Save" name="Save" value="Сохранить" class="blue_button_filter" />
+        <input type="button" value="Закрыть" onclick="window.close();" class="blue_button_filter" />
+       
+        @Html.ActionLink("Все настройки", "List", new {enumEntityType = (int)Model.EnumEntityType, idType = Model.IdType}, new { id = "editLink", @class = "blue_button_filter" } )
+    </div>
+    <div class="content_row">
+        @Html.ValidationSummary(true)
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.Form.Name)
+            @Html.EditorFor(model => model.Form.Id)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.Form.Name)
+            <br />
+            @Html.ValidationMessageFor(model => model.Form.Name)
+        </div>
+    </div>
+    <div class="content_row">
+        <div class="item_description">
+            @Html.LabelFor(model => model.Form.IsHidden)
+        </div>
+        <div class="item_value">
+            @Html.EditorFor(model => model.Form.IsHidden)
+        </div>
+    </div>
+    <fieldset>
+        <legend>Настраиваемые колонки</legend>
+        <table>
+                <tr>
+                    <td>
+                        @Html.ListBoxFor(model => model.AllExportItems, Model.AllExportItems, new {size = ExportSettingViewModel.ListBoxSize, style="width:380px"})
+                    </td>
+                    <td>
+                        <input type="button" id="add" value="Добавить" class="blue_button_filter"/>
+                        <input type="button" id="remove" value="Удалить" class="blue_button_filter" style="display: block;" />       
+                    </td>
+                    <td>
+                        @Html.ListBoxFor(model => model.Form.SelectedExportItems, Model.GetExportItems(), new {size = ExportSettingViewModel.ListBoxSize, style="width:380px"})
+                    </td>
+                    <td>
+                       <input type="button" id="move-up" value="Вверх" class="blue_button_filter" />
+                        <input type="button" id="move-down" value="Вниз" class="blue_button_filter" style="display: block;" /> 
+                    </td>
+                </tr>
+        </table>
+    </fieldset>
+    <div style="text-align: center;">
+        <input type="submit" id="ExportNew" name="Export" value="Экспортировать" class="blue_button_filter" />
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        var data = { selectedItemsId: 'Form_SelectedExportItems' };
+        $('#move-up').click(data, moveUp);
+        $('#move-down').click(data, moveDown);
+        
+        $('#add').click(data, addItems);
+        $('#remove').click(data, removeItems);
+        
+        $('#Save').click(data, saveClick);
+        $('#ExportNew').click(data, exportClick);
+    });
+    
+    function FormSubmit(e) {
+        var editMode = e.data.editMode;
+        var form = $(this);
+        form.unbind('submit');
+        
+        if (editMode && !form.valid()) return false;
+        
+        $.get('@Url.Action("CheckOperationData", "ExtendedExport")', { date: new Date() }, function(result) {
+            
+            if (result != 'True') {
+                alert('@Resources.AvailableOperationData');
+            } else {
+                if (editMode) {
+                    $.post('@Url.Action("Edit", "ExtendedExport")', form.serialize(), function(message) {
+                        alert(message);
+                    });
+                } else {
+                    $.post('@Url.Action("Export", "ExtendedExport")', form.serialize(), function(resultUrl) {
+                        WindowOpen(resultUrl, 1, 1);
+                        window.close();
+                    });
+                }
+            }
+        });
+        return false;
+    }
+
+    function saveClick(e) {
+        selectAllOption(e.data.selectedItemsId);
+        $('form').submit({ editMode: true }, FormSubmit);
+    }
+
+    function exportClick(e) {
+        var nameElement = $("#Form_Name");
+        if (nameElement.val() == '') {
+            nameElement.val('`');
+        }
+        selectAllOption(e.data.selectedItemsId);
+        
+        $('form').submit({ editMode: false }, FormSubmit);
+    }
+    
+    function selectAllOption(listBoxId) {
+        $('#' + listBoxId + ' option').each(function () {
+            this.selected = true;
+        });
+    }
+    
+    function addItems(e) {
+        CopyItems('AllExportItems', e.data.selectedItemsId);
+    }
+    function removeItems(e) {
+        CopyItems(e.data.selectedItemsId, 'AllExportItems');
+    }
+    function CopyItems(allListBox, selListBox) {
+        var destination = $('#' + selListBox);
+        var source = $('#' + allListBox);
+        $(':selected', source).each(function () {
+            destination.append($(this));
+        });
+    }
+    
+    function moveUp(e) {
+        $('#' + e.data.selectedItemsId + ' :selected').each(function () {
+            var item = $(this);
+            if (!item.prev().length) return;
+            item.insertBefore(item.prev());
+        });
+    }
+    function moveDown(e) {
+        $($('#' + e.data.selectedItemsId + ' :selected').get().reverse()).each(function () {
+            var item = $(this);
+            if (!item.next().length) return;
+            item.insertAfter(item.next());
+        });
+    }
+</script>

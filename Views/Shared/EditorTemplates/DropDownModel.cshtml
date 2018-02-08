@@ -1,0 +1,12 @@
+﻿@using Kadastr.WebApp.Code.Extensions
+@model DropDownModel
+@{
+    ViewData.TemplateInfo.HtmlFieldPrefix = "";
+    var disabled = Model.Disabled;
+    if (disabled)
+    {
+        @Html.Hidden(Model.PropertyName, Model.SelectedValue)
+    }
+}
+
+@Html.DropDownList(Model.PropertyName, Model.Items, Model.OptionLabel, HtmlHelperExtention.ConditionalDisable(disabled, Model.HtmlAttributes))

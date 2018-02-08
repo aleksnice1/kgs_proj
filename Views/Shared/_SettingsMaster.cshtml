@@ -1,0 +1,139 @@
+﻿@{
+	Layout = "~/Views/Shared/_HeaderMaster.cshtml";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/SharedSettingsMasterCss")
+
+	@RenderSection("StyleSheets", false)
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/SharedSettingsMasterJs")
+
+	@RenderSection("JavaScripts", false)
+}
+
+<div id="slidebar">
+	<div class="slidebar_link" id="open"></div>
+	<div class="navigate_buttons">
+		<div class="navigate_button" id="but_1" title="Общее">
+			<img alt="" src="@Url.Content("~/Images/SettingsImages/main.png")" />
+			<div>Общее</div>
+		</div>
+		<div class="operationtree demo-container" id="place_1">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/ReportsReestr.aspx")" id="linkMenuItem1">Отчеты</a>
+				</li>
+				<li><a href="@Url.Content("~/NotificationReestr.aspx")" id="linkMenuItem2">Уведомления</a>
+				</li>
+			    <li><a href="@Url.Action("List", "Numerator")" id="linkMenuItem28">Нумераторы</a>
+			    </li>
+                <li><a href="@Url.Action("Index", "ArendaPeriod")" id="linkMenuItem41">Период Аренды</a>
+				</li>
+				<li><a href="@Url.Action("ChangeType", "AttributeTypeChange")" id="linkMenuItem29">Смена типа атрибута</a>
+				</li>
+				<li><a href="@Url.Content("~/ImportSettingsReestr.aspx")" id="linkMenuItem3">Настройка импорта данных из Excel</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_2" title="Типы сущностей">
+			<img src="@Url.Content("~/Images/SettingsImages/entity_types.png")" />
+			<div>Типы сущностей</div>
+		</div>
+		<div class="operationtree demo-container" id="place_2">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/EntityTypesReestr.aspx?Type=1&ShowMode=EditMode")" id="linkMenuItem4">Список типов имущества</a>
+				</li>
+				<li><a href="@Url.Content("~/EntityTypesReestr.aspx?Type=2&ShowMode=EditMode")" id="linkMenuItem5">Список типов документов</a>
+				</li>
+				<li><a href="@Url.Content("~/EntityTypesReestr.aspx?Type=3&ShowMode=EditMode")" id="linkMenuItem6">Список типов контрагентов</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_3" title="Список категорий">
+			<img src="@Url.Content("~/Images/SettingsImages/categories.png")" />
+			<div>Список категорий</div>
+		</div>
+		<div class="operationtree demo-container" id="place_3">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/CategoryTypesReestr.aspx?Type=1&ShowMode=EditMode")" id="linkMenuItem7">Список категорий имущества</a>
+				</li>
+				<li><a href="@Url.Content("~/CategoryTypesReestr.aspx?Type=2&ShowMode=EditMode")" id="linkMenuItem8">Список категорий документов</a>
+				</li>
+				<li><a href="@Url.Content("~/CategoryTypesReestr.aspx?Type=3&ShowMode=EditMode")" id="linkMenuItem9">Список категорий контрагентов</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_4" title="Список операций">
+			<img src="@Url.Content("~/Images/SettingsImages/operations.png")" />
+			<div>Список операций</div>
+		</div>
+		<div class="operationtree demo-container" id="place_4">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/OperationReestr.aspx?Type=clsPropertyType")" id="linkMenuItem10">Имущество</a>
+				</li>
+				<li><a href="@Url.Content("~/OperationReestr.aspx?Type=clsDocumentType")" id="linkMenuItem11">Документы</a>
+				</li>
+				<li><a href="@Url.Content("~/OperationReestr.aspx?Type=clsContragentType")" id="linkMenuItem12">Контрагенты</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_5" title="Список сущностей">
+			<img src="@Url.Content("~/Images/SettingsImages/entities.png")" />
+			<div>Список сущностей</div>
+		</div>
+		<div class="operationtree demo-container" id="place_5">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/ContragentsReestr.aspx?ShowMode=EditMode")" id="linkMenuItem13">Список контрагентов</a>
+				</li>
+				<li><a href="@Url.Content("~/DictionaryReestr.aspx")" id="linkMenuItem14">Список справочников</a>
+				</li>
+				<li><a href="@Url.Content("~/DataTypesReestr.aspx")" id="linkMenuItem15">Типы данных</a>
+				</li>
+				<li><a href="@Url.Content("~/CalculationReestr.aspx")" id="linkMenuItem16">Формулы расчета</a>
+				</li>
+				<li><a href="@Url.Content("~/CalculationReestr.aspx?EditType=Old")" id="linkMenuItem17">Формулы расчета (старое)</a>
+				</li>
+				<li><a href="@Url.Content("~/TransactionsView.aspx")" id="linkMenuItem18">Проводки</a>
+				</li>
+				<li><a href="@Url.Content("~/TransactionTypesReestr.aspx")" id="linkMenuItem19">Типы проводок</a>
+				</li>
+				<li><a href="@Url.Content("~/CalcPeniSettingsReestr.aspx")" id="linkMenuItem20">Настройка начисления пени</a>
+				</li>
+			    <li><a href="@Url.Content("~/ArendaPeniCalculation.aspx")" id="linkMenuItem21">Пересчет пеней</a>
+			    </li>
+                <li><a href="@Url.Action("List", "FilterContext")" id="linkMenuItem30">Справочник контекстов</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_6" title="Представления сущностей">
+			<img src="@Url.Content("~/Images/SettingsImages/entity_shows.png")" />
+			<div>Представления сущностей</div>
+		</div>
+		<div class="operationtree demo-container" id="place_6">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/ClassViewSettingsReestr.aspx?IdClass=1")" id="linkMenuItem22">Представления Имущества</a>
+				</li>
+				<li><a href="@Url.Content("~/ClassViewSettingsReestr.aspx?IdClass=3")" id="linkMenuItem23">Представления Документов</a>
+				</li>
+				<li><a href="@Url.Content("~/ClassViewSettingsReestr.aspx?IdClass=2")" id="linkMenuItem24">Представления Контрагентов</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_button" id="but_7" title="Мастер-страницы">
+			<img src="@Url.Content("~/Images/SettingsImages/master.png")" />
+			<div>Мастер-страницы</div>
+		</div>
+		<div class="operationtree demo-container" id="place_7">
+			<ul class="accordion">
+				<li><a href="@Url.Content("~/MasterPageReestr.aspx?MasterType=New")" id="linkMenuItem25">Настройка</a>
+				</li>
+				<li><a href="@Url.Content("~/MasterPageReestr.aspx?MasterType=Old")" id="linkMenuItem26">Настройка (старое)</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navigate_buttons_expand open"></div>
+	</div>
+</div>
+<div id="posts">@RenderBody()</div>

@@ -1,0 +1,80 @@
+﻿@model string
+
+@{
+	ViewBag.Title = "Редактирование формата";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+@section StyleSheets{
+	
+	@System.Web.Optimization.Styles.Render("~/bundles/AttributeFormatEditorIndexCss")
+
+	<style>
+		.AFEhidden {
+			display: none;
+		}
+
+		.button-menu .float-right, .button-menu .float-right input {
+			float:right;
+		}
+			.button-menu .float-right input {
+				margin-left: 16px;
+			}
+
+		.row {
+			margin-bottom: 8px;
+		}
+		.row:last-child{
+			margin-bottom: 0;
+		}
+	</style>
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/AttributeFormatEditorIndexJs");
+}
+
+<div id="AttributeFormatEditor" class="container"">
+	<div class="row">
+	  <div class="col-md-12">
+		  <h1>Редактирование формата вывода</h1>
+	  </div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+		  Предустановка
+		</div>
+		<div class="col-md-9">
+			<select id="formatPreset" class="col-md-12 form-control" onchange="formatPreset_Change(this)">
+				<option value="">Выберите предустановку</option>
+			</select>
+		</div>		
+	</div>
+	<div class="row">
+		<hr />
+	</div>
+	<div class="row AFEhidden" id="paramEditForm">
+	</div>
+	<div class="row AFEhidden">
+		<hr />
+	</div>
+	<div class="row AFEhidden">
+		<div class="col-md-3">Пример :</div>
+		<div class="col-md-4"><input id="sampleInput" class="col-md-12 form-control" onkeyup="ApplyNewFormat();"/></div>
+		<div class="col-md-1" style="text-align:center;"><span class="glyphicon glyphicon-chevron-right"></span></div>
+		<div class="col-md-4"><input id="sampleOutput" class="col-md-12 form-control"/></div>
+	</div>
+	<div class="row AFEhidden">
+		<hr />
+	</div>
+	<div class="row button-menu">
+		<div class="col-md-4 offset8 float-right">
+			<input type="button" class="btn btn-primary" value="Отмена" onclick="window.close();"/>	
+			<input type="button" class="btn btn-primary AFEhidden" value="Сохранить" onclick="Save_Click();"/>					
+		</div>
+	</div>
+
+	<input type="text" id="resultString" style="display:none;" value="@Model"/>
+	<input type="text" id="sufList" style="display:none;" value="@ViewBag.sufList" />	
+	<input type="text" id="decimalSeparatorList" style="display:none;" value="@ViewBag.decimalSeparatorList" />	
+</div>

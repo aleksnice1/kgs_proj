@@ -1,0 +1,15 @@
+﻿@model Kadastr.WebApp.Models.OperationRestrictionRuleDTO
+@{
+	string controlName = ViewData.ContainsKey("ControlName") ? ViewBag.ControlName : ViewData.TemplateInfo.HtmlFieldPrefix;
+}	
+
+<div class="col-md-1 rule-name">
+	<input	class="form-control" type="text" data-type="text" 
+			name="@(controlName + ".Name")" value="@Model.Name"
+			title="Название правила"/>
+</div>
+<div class="col-md-10 rule-filter">
+	@Html.EditorFor(f => Model.Filter, new { ControlName = controlName + ".Filter"})
+</div>
+	
+<input type="hidden" class="col-md-12" value="@Model.Id" name="@(controlName + ".Id")"/>

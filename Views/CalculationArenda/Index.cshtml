@@ -1,0 +1,17 @@
+﻿@{
+	ViewBag.Title = "Расчет арендной платы";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/CalculationArendaIndexCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/CalculationArendaIndexJs")
+}
+
+@{
+	Html.RenderAction("GetPartial", "CalculationArenda", new { id = ViewBag.Id });
+}
+

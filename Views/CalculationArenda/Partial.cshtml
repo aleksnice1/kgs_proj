@@ -1,0 +1,30 @@
+﻿@{
+	Layout = null;
+}
+
+<!-- Основной блок расчета арендной платы -->
+<div class="little-padding-block">	
+	<div id="CaclArendaBlock" class="row">
+	</div>
+</div>
+<!-- Навигация -->
+<div class="row" style="margin-top: 35px;">
+	<ul id="CalculationArendaNavigation" class="nav nav-tabs">
+		<li><a href="chargeArenda">Начисление арендной платы</a></li>
+		<li><a href="chargePenalty">Начисление пени</a></li>
+		<li><a href="chargeForfeit">Начисление штрафа</a></li>
+	</ul>
+</div>
+
+<!-- Подгружаемые представления -->
+<div class="little-padding-block" style="margin-top: 15px;">
+	<div id="AdditionalBlock" class="row">
+	</div>
+</div>
+	
+<div id="dialog-modal">
+</div>
+
+<script>
+	InitPage();
+</script>

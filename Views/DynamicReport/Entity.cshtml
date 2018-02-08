@@ -1,0 +1,96 @@
+﻿@{
+	ViewBag.Title = "Динамический отчет";
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/DynamicReportEntityCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/DynamicReportEntityJs")
+
+	<script type="text/javascript">
+
+		function redirect(dropDownValue, name) {
+			var dataViewModel = @Html.Raw(Json.Encode(Model)) //Make sure you send the proper model to your view
+			window.location.href = '/DynamicReport/MyAction?idView=' + dropDownValue
+				+ '&name=' + name
+				+ '&viewModel=' + JSON.stringify(dataViewModel);
+		}
+	</script>
+}
+
+
+<div class="content_row">
+	<input type="text" value="@Model.ReportName" id="reportName"/>
+</div>
+
+@using Kadastr.DomainModel.ReportSettings
+@using Kadastr.WebApp.Controllers
+@using Kadastr.DomainModel.Infrastructure
+@using Kadastr.Domain
+@using StructureMap
+@using System.Web.Mvc
+@using System.Collections.Generic
+
+@model @EntityFilterModel
+
+@if (Model.StaticParams != null)
+{
+	foreach (StaticParamsItem modelItem in Model.StaticParams)
+	{
+		// TODO: добавляем статический параметр
+		// modelItem.Name
+		// modelItem.DataType
+		// modelItem.PromptText
+	}
+}
+
+@if (Model.DynamicParams != null)
+{
+	foreach (DynamicParamsItem modelItem in Model.DynamicParams)
+	{
+		if (modelItem.ClassIdView != 0)
+		{
+			// фильтр класса
+	<div class="content_row">
+		@Html.Action("EntityFilter", "AttributesFilter", new { id = modelItem.ClassIdView })
+	</div>
+		}
+		else
+		{
+			// фильтр типа
+			int selectedId = 0;
+			SelectListItem listItem = null;
+			if (modelItem.Values != null)
+			{
+				listItem = modelItem.Values.FirstOrDefault(p => p.Selected);
+			}
+
+			if (listItem != null)
+			{
+				if (int.TryParse(listItem.Value, out selectedId))
+				{
+	<div class="content_row">
+		@Html.DropDownList(modelItem.Name, modelItem.Values,
+				new { onchange = "redirect(this.value, this.name)", id = "viewId" })
+	</div>
+	<div class="content_row">
+		@Html.Action("EntityFilter", "AttributesFilter", new { id = selectedId })
+	</div>
+				}
+			}
+		}
+	}
+}
+
+<div class="content_row control_panel">
+	<input class="kButton mid blue" onclick="FormReport();" value="Сформировать" id="ActionButton" />
+	@Html.DropDownList("ReportType", Model.ExportFormats, new { id = "ReportType" })
+	@Html.ActionLink("Сохранить", "ReportSave", new { },
+		new { @class = "kButton mid blue", @style = "display: none;", @id = "SaveButton", @onclick = "SaveReport();" })
+</div>
+<div id="tabs_blocker">
+	<img src="../Images/loader.gif" />
+</div>

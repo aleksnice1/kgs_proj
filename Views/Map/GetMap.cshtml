@@ -1,0 +1,71 @@
+﻿@{
+	Layout = "~/Views/Shared/_EmptyMaster.cshtml";
+	ViewBag.Title = "ТМ Имущество | Карта";
+}
+
+@section StyleSheets{
+	@System.Web.Optimization.Styles.Render("~/bundles/MapGetMapCss")
+}
+
+@section JavaScripts{
+	@System.Web.Optimization.Scripts.Render("~/bundles/MapGetMapJs")
+}
+
+<nav id="map-navigation" class="navbar navbar-default" role="navigation">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<span class="navbar-brand glyphicon glyphicon-globe"></span>
+	</div>
+
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul id="nav-map" class="nav navbar-nav">
+			<li class="active"><a href="#TMProperty" data-toggle="tab">ТМ Имущество</a></li>
+			<li><a href="#Rosreestr" data-toggle="tab" id="Rosreestr-tab">Росреестр</a></li>
+		</ul>
+		<ul class="nav navbar-nav">
+			<li id="map-layers" class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Слои<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><div id="OpenLayerMap-switcher"></div></li>
+				</ul>
+			</li>			
+		</ul>	
+		<ul class="nav navbar-nav navbar-right">
+			<li id="map-objects" class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Нет участков<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Нет участков</a></li>
+				</ul>
+			</li>
+			<li id="layer-actions" class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Действия<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a id="btnaction-add" href="#">Добавить</a></li>
+					<li><a id="btnaction-edit" href="#">Редактировать</a></li>
+					<li><a id="btnaction-remove" href="#">Удалить</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
+</nav>
+
+<div id="map-tab-container" class="tab-content">
+	<div class="tab-pane active" id="TMProperty">
+		<div id="OpenLayerMap"></div>
+	</div>
+	<div class="tab-pane" id="Rosreestr">
+		<iframe data-src="http://maps.rosreestr.ru/PortalOnline/?cn="></iframe>
+	</div>
+</div>
+
+<input type="hidden" id="objects-id" value="@ViewBag.id"/>
+<input type="hidden" id="read-only" value="@ViewBag.readOnly"/>
+

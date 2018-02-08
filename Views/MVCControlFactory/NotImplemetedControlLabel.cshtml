@@ -1,0 +1,7 @@
+﻿@model Kadastr.WebApp.Models.AttributeValueDTO
+
+<div class="col-md-12">
+	<input type="text" class="col-md-8 pull-left" value="@Model.Value" id="@ViewBag.ControlName" name="@ViewBag.ControlName" />
+	<i style="margin: 2px; color: red;" class="col-md-1 glyphicon glyphicon-minus-sign pull-left"></i>
+	<span class="col-md-3 pull-left">@Model.AttributeDataType</span>
+</div>

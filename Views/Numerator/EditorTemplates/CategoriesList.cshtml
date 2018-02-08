@@ -1,0 +1,10 @@
+﻿@model NumeratorCategoryCollection
+<div class="content_row">
+    <div class="item_description">
+        @Html.LabelForModel()
+    </div>
+    <div id="categories" style="clear: left">
+        @Html.Partial("Partials/EditNumeratorCategory", Model.GetActiveCategories())
+        @Html.Partial("Partials/AddNumeratorCategory")
+    </div>
+</div>

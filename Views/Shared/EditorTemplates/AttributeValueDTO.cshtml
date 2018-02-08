@@ -1,0 +1,4 @@
+﻿@model Kadastr.WebApp.Models.AttributeValueDTO
+
+@{Html.RenderAction("AttributeValueEditor", "MVCControlFactory", new { attributeValue = Model, controlName = ViewData["controlName"] });}
+

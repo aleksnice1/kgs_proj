@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Техобслуживание";
+}
+<div>
+    Отключить режим технического обслуживания?
+    @using (Html.BeginForm(new { action = "ChangeMode" }))
+    { 
+        @Html.Hidden("active", false);
+        <input type="submit" value="Отключить" class="blue_button"/>
+        @Html.AntiForgeryToken() 
+    }
+</div>

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Kadastr.DomainModel.Numerator>
+@using Kadastr.WebApp.Code.Extensions;
+@{
+	Layout = "~/Views/Shared/_SettingsMaster.cshtml";
+	ViewBag.Title = "Нумераторы";
+}
+@Html.ActionsPartial(!Model.Any())
+<div>
+    @{
+        var grid = Html.Grid(Model);
+    }
+    @grid.GetHtml(
+        columns: grid.Columns(
+            grid.Column("Name", "Наименование нумератора", item => new HtmlString(item.Name
+                    + @Html.Hidden("hiddenEditLink", Url.Action("Edit", new { id = item.Id }))
+                    + @Html.Hidden("hiddenDeleteLink", Url.Action("Delete", new { id = item.Id })))),
+            grid.Column("Format", "Формат"))
+         )
+</div>
+<script src="~/Scripts/Controls/WebGrid.js" type="text/javascript"></script>
